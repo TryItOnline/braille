@@ -34,7 +34,7 @@ void execute(unsigned char *tape, size_t dp)
 			case 0xc0: if (*tape) ip -= arg + 2; break;
 			case 0xd0: tape[dp + arg] = getchar(); break;
 			case 0xe0: putchar(tape[dp + arg]); break;
-			case 0xf0: tape[dp + arg] = rand() % 0xff; break;
+			case 0xf0: tape[dp + arg] = rand() >> 7; break;
 		}
 	}
 }
