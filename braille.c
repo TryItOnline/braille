@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -65,7 +66,7 @@ int main(int argc, char **argv)
 		}
 	}
 
-	srand((unsigned int) &c);
+	srand((intptr_t) &c);
 	execute(tape, len);
 
 	fclose(src);
