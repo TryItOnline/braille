@@ -53,11 +53,15 @@ int main(int argc, char **argv)
 		return fprintf(stderr, "Unable to open file '%s'\n", argv[1]);
 
 	while ((c = fgetc(src)) != EOF) {
-		if (c == 0xe2) { /* found Braille character */
-			c = convert((fgetc(src) - 0xa0) * 0x40 + (fgetc(src) - 0x80));
-			if (cap == len)
-				tape = realloc(tape, cap <<= 1);
-			tape[len++] = c;
+		if (c == 0xe2) {
+			int c2 = fgetc(src); if(c2 == EOF) break;
+			int c3 = fgetc(src); if(c3 == EOF) break;
+			if(c2 >= 0xa0 && c2 <= 0xa3) { /* found Braille character */
+				c = convert((c2 - 0xa0) * 0x40 + (c3 - 0x80));
+				if (cap == len)
+					tape = realloc(tape, cap <<= 1);
+				tape[len++] = c;
+			}
 		}
 	}
 
@@ -68,3 +72,4 @@ int main(int argc, char **argv)
 	free(tape);
 	return 0;
 }
+
